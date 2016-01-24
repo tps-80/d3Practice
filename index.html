@@ -31,7 +31,16 @@
                 .domain([0, d3.max(dataset, function(d) { return d[2]; })])
                 .range([0, height]);
 
+            /////////// axis   //////////
+            var xAxis = d3.svg.axis()
+                  .scale(xScale)
+                  .orient("bottom")
+                  .ticks(5);  //Set rough # of ticks
 
+svg.append("g")
+    .call(d3.svg.axis()
+                .scale(xScale)
+                .orient("bottom"));
 
             svg.selectAll("rect")
                .data(dataset)
