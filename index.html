@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <link rel="stylesheet" href="d3.css">
+        <script type="text/javascript" src="d3/d3.v3.js"></script>
+
+
+
+    </head>
+    <body>
+        <h1>Page Loaded</h1>
+        <script type="text/javascript">
+            var dataset = [ ["Lincoln",5,30],["Washington", 23,56],["Jefferson", 88, 92] ];
+            var width = 600;
+            var height = 500;
+            var barPadding = 2; 
+
+            var svg = d3.select("body")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+
+            var xScale = d3.scale.linear()
+                .domain([0, width])
+                .range([0, width]);
+
+            var yScale = d3.scale.linear()
+                .domain([0, d3.max(dataset, function(d) { return d[2]; })])
+                .range([0, height]);
+
+
+
+            svg.selectAll("rect")
+               .data(dataset)
+               .enter()
+               .append("rect")
+               .attr("x", function (d, i) {
+                    return i * (width/dataset.length);
+               })
+               .attr("y", function(d) {
+                    return yScale(d[2]);
+                })
+               .attr("width", width/dataset.length - barPadding)
+               .attr("height", function(d) {
+                    return (d[2] - d[1]) * 5;
+               })
+               .attr("fill", "burlywood");
+
+            svg.selectAll("text")
+                .data(dataset)
+                .enter()
+                .append("text")
+                .text(function(d) {
+                    return d[0];
+                })
+                .attr("x", function(d, i) {
+                    return i * (width / dataset.length) + (width / dataset.length - barPadding) / 2;
+                })
+                .attr("y", function(d) {
+                    return yScale(d[2]);
+                })
+                .attr("text-anchor", "middle");
+
+
+
+
+        </script>
+    </body>
+</html>
