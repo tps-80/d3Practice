@@ -10,68 +10,77 @@
 
     </head>
     <body>
-        <h1>Page Loaded</h1>
+        <h1>Lifespans</h1>
         <script type="text/javascript">
-            var dataset = [ ["Lincoln",5,30],["Washington", 23,56],["Jefferson", 88, 92] ];
-            var width = 600;
+            var width = window.innerWidth - 10;
             var height = 500;
-            var barPadding = 2; 
+            var barHeight = 30;
+            var barPadding = 2;
+            var oldestDate = -150;
+            var currentYear = 2016; 
+
+            var dataset = [ ["Lincoln",5,30],["Washington", 23,56],["Jefferson", 60, 92],["Franklin", 12,56], ["Obama", 1950, currentYear] ];
 
             var svg = d3.select("body")
                 .append("svg")
-                .attr("width", width)
-                .attr("height", height);
+                .attr("width", width-20)
+                .attr("height", height)
+            svg.append("rect")
+                .attr("width", "100%")
+                .attr("height", "100%")
+                .attr("fill", "blue");
 
+
+            /////////// axis   //////////
 
             var xScale = d3.scale.linear()
-                .domain([0, width])
-                .range([0, width]);
+                .domain([oldestDate, currentYear])
+                .range([10, width -50]);
 
             var yScale = d3.scale.linear()
                 .domain([0, d3.max(dataset, function(d) { return d[2]; })])
                 .range([0, height]);
 
-            /////////// axis   //////////
             var xAxis = d3.svg.axis()
                   .scale(xScale)
                   .orient("bottom")
-                  .ticks(5);  //Set rough # of ticks
+                  .ticks(50);  //Set rough # of ticks
 
-svg.append("g")
-    .call(d3.svg.axis()
-                .scale(xScale)
-                .orient("bottom"));
+            svg.append("g")
+                .attr("class", "axis")
+                .attr("transform", "translate(10)")
+                .call(xAxis);
+
 
             svg.selectAll("rect")
                .data(dataset)
                .enter()
                .append("rect")
-               .attr("x", function (d, i) {
-                    return i * (width/dataset.length);
+               .attr("y", function (d, i) {
+                    return 25+ i * (barHeight + barPadding);
                })
-               .attr("y", function(d) {
-                    return yScale(d[2]);
+               .attr("x", function(d) {
+                    return d[1];
                 })
-               .attr("width", width/dataset.length - barPadding)
-               .attr("height", function(d) {
+               .attr("height", barHeight)
+               .attr("width", function(d) {
                     return (d[2] - d[1]) * 5;
                })
                .attr("fill", "burlywood");
 
-            svg.selectAll("text")
-                .data(dataset)
-                .enter()
+            svg.selectAll("rect")
                 .append("text")
                 .text(function(d) {
+                    console.log("here")
                     return d[0];
                 })
-                .attr("x", function(d, i) {
-                    return i * (width / dataset.length) + (width / dataset.length - barPadding) / 2;
+               .attr("y", function (d, i) {
+                    return 5+ i * (barHeight + barPadding);
+               })
+               .attr("x", function(d) {
+                    return xScale(d[2]);
                 })
-                .attr("y", function(d) {
-                    return yScale(d[2]);
-                })
-                .attr("text-anchor", "middle");
+               .attr("fill", "black");
 
 
 
