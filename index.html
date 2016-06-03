@@ -6,8 +6,6 @@
         <link rel="stylesheet" href="d3.css">
         <script type="text/javascript" src="d3/d3.v3.js"></script>
 
-
-
     </head>
     <body>
         <h1>Lifespans</h1>
@@ -30,7 +28,6 @@
                 .attr("height", "100%")
                 .attr("fill", "blue");
 
-
             /////////// axis   //////////
 
             var xScale = d3.scale.linear()
@@ -50,7 +47,6 @@
                 .attr("class", "axis")
                 .attr("transform", "translate(10)")
                 .call(xAxis);
-
 
             svg.selectAll("rect")
                .data(dataset)
@@ -81,9 +77,6 @@
                     return xScale(d[2]);
                 })
                .attr("fill", "black");
-
-
-
 
         </script>
     </body>
